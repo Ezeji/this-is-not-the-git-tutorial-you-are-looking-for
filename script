@@ -1,0 +1,78 @@
+# get going
+export PS1="\W \$ "
+mkdir /tmp/demo
+cd /tmp/demo
+git init
+# git has created .git and its skeleton contents (slide 4)
+
+# add file to git
+echo "Read Me" > README
+git add README
+hash=$(git hash-object README)
+echo $hash
+git cat-file -t $hash
+git cat-file -p $hash
+# convenience utility to explore .git with nautilus and zenity
+cat ${HOME}/bin/git-cat-type-and-file
+# README can be found in .git/objects/ab/cdefghi (slide 5)
+
+# commit the file
+git commit  -m "Add README"
+# commit and its tree are in .git/objects/... (slide 7) 
+
+# create a subdirectory and a file there
+mkdir src
+echo 'print("Hello")' > src/hello.py
+git add src/hello.py
+git commit -m "Add hello.py"
+# commit and its tree are in .git/objects/... (slide 9)
+# screenshot to compare
+
+# modify and commit a file
+echo "Read more" >> README
+git add README
+git hash-object README
+git commit -m "Modify README"
+# commit and its tree are in .git/objects, subtree shared (slide 11)
+
+# create new branch
+git --no-pager branch
+git checkout -b mybranch
+echo "My Branch" >> README
+git add README
+git commit -m "Modify README again"
+# creates a regular commit in .git/objects
+# parent is the master branch commit
+
+# branches are stored under .git/refs/heads
+cat .git/refs/heads/master
+cat .git/refs/heads/mybranch
+cat .git/HEAD
+git checkout master
+cat .git/HEAD
+
+# git diff
+git --no-pager diff master..mybranch
+
+# manual by hand
+git checkout master
+README_hash_master=$(git hash-object README)
+git checkout mybranch
+README_hash_mybranch=$(git hash-object README)
+git cat-file -p $README_hash_master > /tmp/README-master
+git cat-file -p $README_hash_mybranch > /tmp/README-mybranch
+cat /tmp/README-master
+cat /tmp/README-mybranch
+diff -c /tmp/README-master /tmp/README-mybranch
+
+# git format-patch (prequel to rebase)
+git format-patch master..mybranch
+cat 0001-Modify-README-again.patch
+
+# git rebase
+git checkout master
+echo 'print("Haloo!")' > src/hello.py
+git add src/hello.py
+git commit -m "New commit in master"
+git checkout mybranch
+git rebase master
