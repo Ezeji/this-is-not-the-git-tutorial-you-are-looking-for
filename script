@@ -1,5 +1,6 @@
 # get going
 export PS1="\W \$ "
+/bin/rm -Rf /tmp/demo
 mkdir /tmp/demo
 cd /tmp/demo
 git init
