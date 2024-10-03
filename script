@@ -20,6 +20,7 @@ cat ${HOME}/bin/git-cat-type-and-file
 
 # commit the file
 git commit  -m "Add README"
+gitk --all &
 # commit and its tree are in .git/objects/... (slide 7) 
 
 # create a subdirectory and a file there
@@ -28,7 +29,6 @@ echo 'print("Hello")' > src/hello.py
 git add src/hello.py
 git commit -m "Add hello.py"
 # commit and its tree are in .git/objects/... (slide 9)
-# screenshot to compare
 
 # modify and commit a file
 echo "Read more" >> README
@@ -78,3 +78,12 @@ git add src/hello.py
 git commit -m "New commit in master"
 git checkout mybranch
 git rebase master
+
+# git merge
+git checkout master
+echo 'print("Moin!")' > src/hello.py
+git add src/hello.py
+git commit -m "New commit in master again"
+git checkout mybranch
+git merge master
+git --no-pager show HEAD
