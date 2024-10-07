@@ -4,8 +4,9 @@ export PS1="\W \$ "
 mkdir /tmp/demo
 cd /tmp/demo
 git init
-git config --global user.email "devday@example.com"
-git config --global user.name "Dev Day"
+# These are not needed if you have global git config
+# git config user.email "devday@example.com"
+# git config user.name "Dev Day"
 # git has created .git and its skeleton contents (slide 4)
 
 # add file to git
